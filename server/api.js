@@ -13,8 +13,4 @@ apiRouter.use('/ideas', ideasRouter);
 const meetingsRouter = require('./meetings.js');
 apiRouter.use('/meetings', meetingsRouter);
 
-// work Router
-const workRouter = require('./work.js');
-apiRouter.use('/minions/:minionId/work', workRouter);
-
 module.exports = apiRouter;

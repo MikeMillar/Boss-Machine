@@ -3,29 +3,29 @@ const ideasRouter = express.Router();
 const {createMeeting, getAllFromDatabase, getFromDatabaseById, addToDatabase, updateInstanceInDatabase, deleteFromDatabasebyId, deleteAllFromDatabase} = require('./db.js');
 const checkMillionDollarIdea = require('./checkMillionDollarIdea.js');
 
+ideasRouter.param('ideaId', (req, res, next, id) => {
+  const ideaId = id;
+  const foundIdea = getFromDatabaseById('ideas', ideaId);
+  if (isNaN(ideaId) || foundIdea === undefined || foundIdea === -1) {
+    res.status(404).send();
+  } else {
+    req.id = ideaId;
+    req.foundIdea = foundIdea;
+    next();
+  }
+})
+
 ideasRouter.get('', (req, res, next) => {
   res.send(getAllFromDatabase('ideas'));
 })
 
 ideasRouter.get('/:ideaId', (req, res, next) => {
-  const foundIdea = getFromDatabaseById('ideas', req.params.ideaId);
-  const ideaId = req.params.ideaId;
-  if (isNaN(ideaId) || foundIdea === undefined || foundIdea === -1) {
-    res.status(404).send();
-  } else {
-    res.send(foundIdea);
-  }
+  res.send(req.foundIdea);
 })
 
 ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res, next) => {
-  const foundidea = getFromDatabaseById('ideas', req.params.ideaId);
-  const ideaId = req.params.ideaId;
-  const updatedidea = updateInstanceInDatabase('ideas', req.body);
-  if (isNaN(ideaId) || foundidea === undefined || foundidea === -1) {
-    res.status(404).send();
-  } else {
-    res.send(updatedidea);
-  }
+  const updatedIdea = updateInstanceInDatabase('ideas', req.body);
+  res.send(updatedIdea);
 })
 
 ideasRouter.post('', checkMillionDollarIdea, (req, res, next) => {
@@ -38,7 +38,7 @@ ideasRouter.post('', checkMillionDollarIdea, (req, res, next) => {
 })
 
 ideasRouter.delete('/:ideaId', (req, res, next) => {
-  deletedIdea = deleteFromDatabasebyId('ideas', req.params.ideaId);
+  const deletedIdea = deleteFromDatabasebyId('ideas', req.id);
   if (deletedIdea === true) {
     res.status(204).send();
   } else {

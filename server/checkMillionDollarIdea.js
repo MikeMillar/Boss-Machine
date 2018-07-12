@@ -4,7 +4,6 @@ const checkMillionDollarIdea = (req, res, next) => {
   if (!numWeeks || !weeklyRevenue || isNaN(totalRevenue) || totalRevenue < 1000000) {
     res.status(400).send();
   } else {
-    res.send();
     next();
   }
 };

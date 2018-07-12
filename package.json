@@ -16,11 +16,11 @@
     "body-parser": "^1.18.3",
     "chai": "^4.1.1",
     "cors": "^2.8.4",
-    "cross-env": "^5.1.1",
+    "cross-env": "^5.2.0",
     "express": "^4.15.4",
-    "mocha": "^3.5.0",
+    "mocha": "^3.5.3",
     "morgan": "^1.8.2",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.18.1",
     "supertest": "^3.0.0"
   },
   "devDependencies": {
